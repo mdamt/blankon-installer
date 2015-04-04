@@ -1,3 +1,3 @@
 html5dir=$(prefix)/lib/blankon-installer/system
-dist_html5_DATA = app.css html.min.js index.html libs.js src.js
+dist_html5_DATA = app.css html.min.js index.html libs.js src.js timezone.html images/pin.png images/logo.png images/map.png
 
