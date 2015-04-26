@@ -398,7 +398,7 @@ public class Device : GLib.Object {
                 var ext_fs = new Ped.FileSystemType("ext3");
                 var ext = new Ped.Partition(disk, Ped.PartitionType.EXTENDED, ext_fs, start, end);
                 stdout.printf ("Extended partition %s%d\n", get_path(), ext.num);
-                disk.add_partition (ext, new Ped.Constraint.any (device));
+                disk.add_partition (disk, ext, new Ped.Constraint.any (device));
                 disk.commit_to_dev ();
                 if (ext == null) {
                     throw new DeviceError.CANT_CREATE_PARTITION ("Can't create extended partition\n");
@@ -412,7 +412,7 @@ public class Device : GLib.Object {
                 new_partition = new Ped.Partition(disk, Ped.PartitionType.LOGICAL, swap_type, start, end);
                 start = end + swap_size_sector + 1; 
                 end  = (uint64) (byte_end / get_unit_size ());
-                var part_num = disk.add_partition (new_partition, new Ped.Constraint.any (device));
+                var part_num = disk.add_partition (disk, new_partition, new Ped.Constraint.any (device));
                 if (part_num == 0) {
                     throw new DeviceError.CANT_CREATE_PARTITION ("Unable to create swap\n");
                 }
@@ -424,7 +424,7 @@ public class Device : GLib.Object {
             new_partition = new Ped.Partition(disk, Ped.PartitionType.NORMAL, fs_type, start, end);
         }
         if (new_partition != null) {
-            var part_num = disk.add_partition (new_partition, new Ped.Constraint.any (device));
+            var part_num = disk.add_partition (disk, new_partition, new Ped.Constraint.any (device));
             if (part_num == 0) {
                 throw new DeviceError.CANT_CREATE_PARTITION ("Unable to create partition\n");
             }
